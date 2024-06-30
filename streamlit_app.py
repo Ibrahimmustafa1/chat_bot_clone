@@ -2,8 +2,8 @@ import streamlit as st
 from hugchat import hugchat
 from hugchat.login import Login
 
-EMAIL = "ibrahimmustafa9135@gmail.com"
-PASSWD = "1010HemaMessi"
+EMAIL = st.secrets["email"]
+PASSWD = st.secrets["PASSWD"]
 cookie_path_dir = "./cookies/"
 
 # Login and get cookies
