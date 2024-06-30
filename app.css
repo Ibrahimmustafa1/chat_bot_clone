@@ -1,0 +1,81 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9; /* Light background color */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+}
+
+.chat-bubble {
+    padding: 10px 15px;
+    border-radius: 15px;
+    clear: both;
+    overflow-wrap: break-word;
+}
+
+.user-bubble {
+    float: right;
+    background-color: #DCF8C6;
+}
+
+.bot-bubble {
+    float: left;
+    background-color: #E0E0E0;
+}
+
+.chat-bubble p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.stTextInput input {
+    border: 2px solid #ccc;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 20px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: calc(100% - 40px);
+    margin-right: 10px;
+}
+
+.stTextInput input:focus {
+    border-color: #4CAF50;
+}
+
+.stButton button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.stButton button:hover {
+    background-color: #45a049;
+}
+
+.conversation-area {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}

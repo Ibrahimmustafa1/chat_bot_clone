@@ -2,11 +2,11 @@ import streamlit as st
 from hugchat import hugchat
 from hugchat.login import Login
 
-
-EMAIL = st.secrets["EMAIL"]
-PASSWD = st.secrets["PASSWD"]
+EMAIL = "ibrahimmustafa9135@gmail.com"
+PASSWD = "1010HemaMessi"
 cookie_path_dir = "./cookies/"
 
+# Login and get cookies
 sign = Login(EMAIL, PASSWD)
 cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
@@ -15,31 +15,31 @@ def get_response(user_input):
     for resp in chatbot.query(user_input, stream=True):
         if resp is not None:
             yield resp['token']
+    
+    
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+    
 
-def main():
-    st.title("Hugging Face Chatbot Clone")
+for msg in st.session_state.messages:
+    if len(st.session_state.messages) > 0:
+        st.chat_message(msg["role"]).write(msg["content"])
+    
 
-    if 'conversation' not in st.session_state:
-        st.session_state.conversation = []
 
-    user_input = st.text_input("Enter your message", key="user_input")
+user_input = st.chat_input("Enter your message:", key="user_input")
+st.session_state.messages.append({"role": "user", "content": user_input})
 
-    if st.button("Send") and user_input:
-        response_container = st.empty()  
-        full_response = ""
-        
-        conversation_history = "\n".join([f"You: {msg[0]}\nBot: {msg[1]}" for msg in st.session_state.conversation])
-        combined_input = f"{conversation_history}\nYou: {user_input}\nBot:"
-
-        with st.spinner("Wait for bot response..."):
-            for response in get_response(combined_input):
-                full_response += response
-                response_container.text_area("Bot", value=full_response, height=200)
-        
-        st.session_state.conversation.append((user_input, full_response))
-
-    conversation_text = "\n".join([f"You: {msg[0]}\nBot: {msg[1]}" for msg in st.session_state.conversation])
-    st.text_area("History", value=conversation_text, height=400, key="conversation_text_area")
-
-if __name__ == "__main__":
-    main()
+if user_input:
+    st.chat_message("user").write(user_input)
+    placeholder = st.chat_message("AI").empty()
+    with st.spinner("Thinking..."):
+        stream_res=""
+        conversation_history = "\n".join([f"user: {msg['role']}\nAI: {msg['content']}" for msg in st.session_state.messages])
+        combined_input = f"{conversation_history}\nuser: {user_input}\nAI:"
+        for response in get_response(combined_input):
+            stream_res += response
+            placeholder.markdown(stream_res)    
+        st.session_state.messages.append({"role": "AI", "content": stream_res})
+            
+            
